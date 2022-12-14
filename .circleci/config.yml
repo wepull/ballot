@@ -11,7 +11,9 @@ jobs:
       - checkout
       - run:
           name: run unit tests
-          command: go test -v ./ballot/...
+          command: |
+            mkdir -p /tmp/test-reports
+            go test -v ./ballot/...
       - store_test_results:
           path: /tmp/test-reports
 workflows:
@@ -20,12 +22,12 @@ workflows:
       - test
       - aws-ecr/build-and-push-image:
             assume-web-identity: false 
-            aws-access-key-id: AWS_ACCESS_KEY 
+            aws-access-key-id: AWS_ACCESS_KEY_ID
             aws-secret-access-key: AWS_SECRET_ACCESS_KEY 
             create-repo: true 
             path: ./ballot 
             region: 'us-west-1'
-            registry-id: REG_ID 
+            registry-id: AWS_ACCOUNT_ID
             repo: ballot 
             docker-login: false 
 
