@@ -10,7 +10,7 @@ jobs:
       - image: cimg/base:stable
     steps:
       - roost-orb-test-1/createcluster:
-          alias: testalias 
+          alias: test 
           email: vipul.choudhary@zb.io 
           roost_auth_token: ROOST_AUTH_TOKEN
   test:
