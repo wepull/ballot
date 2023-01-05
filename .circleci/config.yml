@@ -2,17 +2,7 @@ version: 2.1
 
 orbs:
   aws-ecr: circleci/aws-ecr@8.2.0
-  roost-orb-test-1: roost/roost-orb-test-1@1.0.1
 jobs:
-  example-job:
-    docker:
-      # replace with your preferred image
-      - image: cimg/base:stable
-    steps:
-      - roost-orb-test-1/createcluster:
-          alias: test 
-          email: vipul.choudhary@zb.io 
-          roost_auth_token: ROOST_AUTH_TOKEN
   test:
     docker:
       - image: circleci/golang:1.15.8
@@ -31,7 +21,6 @@ workflows:
   test-workflow:
     jobs:
       - test
-      - example-job
       - aws-ecr/build-and-push-image:
             assume-web-identity: false 
             aws-access-key-id: AWS_ACCESS_KEY_ID
