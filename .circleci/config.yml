@@ -1,9 +1,8 @@
 # Use the latest 2.1 version of CircleCI pipeline process engine.
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
-
 orbs:
-  eaas-orb: roost-eaas-orb/eaas-orb@dev:d76ddbd129343513665ee4a941cc7f523e5c84b2
+  eaas-orb: roost-eaas-orb/eaas-orb@dev:76d7157538df0506bfab7ae48b595a006c37517e
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -19,8 +18,8 @@ jobs:
       - checkout
       - eaas-orb/trigger-eaas:
           application_name: "orbtest"
+      - run: cp $BASH_ENV bash.env
       - run: |
-          echo "done"
           printenv
       - persist_to_workspace:
           root: .
