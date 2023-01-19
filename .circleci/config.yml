@@ -19,6 +19,13 @@ jobs:
       - checkout
       - eaas-orb/trigger-eaas:
           application_name: "orbtest"
+      - run: |
+          echo "done"
+          printenv
+      - persist_to_workspace:
+          root: .
+          paths:
+            - bash.env
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
