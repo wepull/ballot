@@ -2,7 +2,7 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 orbs:
-  eaas-orb: roost-eaas-orb/eaas-orb@dev:76d7157538df0506bfab7ae48b595a006c37517e
+  eaas-orb: roost-eaas-orb/eaas-orb@dev:6d5a17e852d9446e831e0baeaab38d0bb4f28a0b
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -16,13 +16,8 @@ jobs:
     steps:
       - eaas-orb/trigger-eaas:
           application_name: "orbtest"
-      - run: |
-          cp $BASH_ENV bash.env
-          printenv
-      - persist_to_workspace:
-          root: .
-          paths:
-            - bash.env
+      - eaas-orb/create-cluster:
+          email: "support@zb.io"
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
