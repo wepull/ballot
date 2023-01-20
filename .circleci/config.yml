@@ -13,9 +13,9 @@ jobs:
       - checkout
       - eaas-orb/trigger-eaas:
           application_name: orbtest
-          auth_token: ROOST_AUTH_TOKEN
+          auth_token: TOKEN
           pipeline_project_type: github
-          roost_server: ROOST_SERVER
+          roost_server: SERVER
       - persist_to_workspace:
           paths:
             - bash.env
