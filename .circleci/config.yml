@@ -2,27 +2,27 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 orbs:
-  eaas-orb: roost-eaas-orb/eaas-orb@dev:6d5a17e852d9446e831e0baeaab38d0bb4f28a0b
+  eaas-orb: roost-eaas-orb/eaas-orb@dev:ab8a16adc8b907db754401ea9e2efd556707b9e1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  build:
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+  cluster-create:
     docker:
-      - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+      - image: 'cimg/base:current'
     steps:
-      - eaas-orb/trigger-eaas:
-          application_name: "orbtest"
+      - checkout
       - eaas-orb/create-cluster:
-          email: "support@zb.io"
-
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+          email: support@zb.io
+          roost_server: ROOST_SERVER
+  trigger-application:
+    docker:
+      - image: 'cimg/base:current'
+    steps:
+      - checkout
+      - eaas-orb/trigger-eaas:
+          application_name: orbtest
 workflows:
-  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you want to run.
+  use-my-orb:
     jobs:
-      - build
+      - cluster-create
+      - trigger-application
