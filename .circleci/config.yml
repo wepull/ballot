@@ -2,7 +2,7 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 orbs:
-  eaas-orb: roost-eaas-orb/eaas-orb@dev:ab8a16adc8b907db754401ea9e2efd556707b9e1
+  eaas-orb: roost-eaas-orb/eaas-orb@1.0.2
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
