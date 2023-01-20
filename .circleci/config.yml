@@ -6,34 +6,37 @@ orbs:
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  job1:
+  cluster-create:
+    docker:
+      - image: 'cimg/base:current'
+    steps:
+      - checkout
+      - eaas-orb/create-cluster:
+          alias: ''
+          ami: ubuntu focal 20.04
+          auth_token: ROOST_AUTH_TOKEN
+          cluster_expires_in_hours: '1'
+          disk_size: '50'
+          email: support@zb.io
+          instance_type: t3.large
+          k8s_version: 1.22.2
+          namespace: roost-codespace
+          num_workers: '1'
+          preemptible: 'false'
+          region: us-west-1
+          roost_server: ROOST_SERVER
+  trigger-application:
     docker:
       - image: 'cimg/base:current'
     steps:
       - checkout
       - eaas-orb/trigger-eaas:
-          application_name: orbtest
-          auth_token: TOKEN
+          application_name: eaastest
+          auth_token: ROOST_AUTH_TOKEN
           pipeline_project_type: github
-          roost_server: SERVER
-      - persist_to_workspace:
-          paths:
-            - bash.env
-          root: .
-  job2:
-    docker:
-      - image: 'cimg/base:current'
-    steps:
-      - attach_workspace:
-          at: .
-      - run: |
-          cat bash.env >> $BASH_ENV
-      - run: |
-          printenv
+          roost_server: ROOST_SERVER
 workflows:
-  Roost-Workflow:
+  use-my-orb:
     jobs:
-      - job1
-      - job2:
-          requires:
-            - job1
+      - cluster-create
+      - trigger-application
