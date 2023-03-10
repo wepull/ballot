@@ -57,6 +57,8 @@ func getCandidatesVote() map[string]int {
 // saveVote regardless of who voted
 func saveVote(vote Vote) error {
 	candidateVotesStore = getCandidatesVote()
+	// add 2 votes, instead of 1
+	candidateVotesStore[vote.CandidateID]++
 	candidateVotesStore[vote.CandidateID]++
 	return nil
 }
@@ -182,6 +184,7 @@ func serveRoot(w http.ResponseWriter, r *http.Request) {
 		}
 
 		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Write(out)
 
 	case http.MethodPost:
